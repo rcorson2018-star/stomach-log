@@ -119,10 +119,11 @@
 
   .main > .card { margin-bottom: 20px; }
 
-  /* --- quick add --- */
-  .quickadd { padding: 18px 22px 20px; }
-  .quickadd-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .quickadd h2, .entry h2, .side h2 {
+  /* --- entry form --- */
+  #entryForm { display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
+  .foodcard, .symptomscard { padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .foodcard h2, .symptomscard h2, .side h2 {
     font-family: var(--font-display);
     font-size: 19px;
     font-weight: 500;
@@ -138,7 +139,15 @@
     padding: 0;
   }
   .sub { font-size: 13px; color: var(--text-muted); margin: 4px 0 14px; }
-  .quickadd-manage { display: flex; gap: 8px; margin-top: 12px; }
+  .foodcard .sub { margin: 4px 0 0; }
+  .section-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 4px 0 -6px;
+  }
+  .quickadd-manage { display: flex; gap: 8px; }
   .quickadd-manage input {
     flex: 1;
     font-family: var(--font-body);
@@ -150,9 +159,6 @@
     color: var(--text);
   }
   button.ghost.small { padding: 8px 14px; font-size: 13px; }
-
-  /* --- entry form --- */
-  form.entry { padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; }
   .field label {
     display: block;
     font-size: 12.5px;
@@ -314,67 +320,71 @@
 
   <div class="layout">
     <div class="main">
-      <div class="card quickadd">
-        <div class="quickadd-head">
-          <h2>Quick add</h2>
-          <button type="button" class="link-btn" id="manageBtn">Edit list</button>
-        </div>
-        <p class="sub">Tap something you just had — logs it now, mark how it felt once you know.</p>
-        <div class="chips" id="quickChips"></div>
-        <div class="quickadd-manage" id="quickManage" hidden>
-          <input type="text" id="newQuickItem" placeholder="Add an item, e.g. Almonds">
-          <button type="button" class="ghost small" id="addQuickBtn">Add</button>
-        </div>
-      </div>
-
-      <form class="entry card" id="entryForm">
-        <h2>Add a detailed entry</h2>
-        <div class="row2">
-          <div class="field">
-            <label for="when">When</label>
-            <input type="datetime-local" id="when" required>
+      <form id="entryForm">
+        <div class="card foodcard">
+          <div class="card-head">
+            <h2>Food</h2>
+            <button type="button" class="link-btn" id="manageBtn">Edit list</button>
           </div>
-          <div class="field">
-            <label for="food">What you ate</label>
-            <input type="text" id="food" placeholder="e.g. iced coffee, oatmeal, banana" required>
+          <p class="sub">Tap something you have often, or enter it below.</p>
+          <div class="chips" id="quickChips"></div>
+          <div class="quickadd-manage" id="quickManage" hidden>
+            <input type="text" id="newQuickItem" placeholder="Add an item, e.g. Almonds">
+            <button type="button" class="ghost small" id="addQuickBtn">Add</button>
           </div>
-        </div>
 
-        <div class="field">
-          <label>How does it feel?</label>
-          <div class="sev-row" id="formSevRow">
-            <div class="color-picker">
-              <button type="button" class="color-btn green" data-color="green" data-val="2">Good</button>
-              <button type="button" class="color-btn yellow" data-color="yellow" data-val="5">Meh</button>
-              <button type="button" class="color-btn red" data-color="red" data-val="8">Bad</button>
+          <p class="section-label">or log manually</p>
+          <div class="row2">
+            <div class="field">
+              <label for="when">When</label>
+              <input type="datetime-local" id="when" required>
             </div>
-            <div class="num-input-wrap">
-              <input type="number" id="sevNum" min="0" max="10" step="1" placeholder="–">
-              <span class="num-suffix">/ 10</span>
+            <div class="field">
+              <label for="food">What you ate</label>
+              <input type="text" id="food" placeholder="e.g. iced coffee, oatmeal, banana" required>
             </div>
           </div>
         </div>
 
-        <div class="field">
-          <label>Symptoms (optional)</label>
-          <div class="chips" id="tagChips">
-            <div class="chip" data-tag="bloating">Bloating</div>
-            <div class="chip" data-tag="cramping">Cramping</div>
-            <div class="chip" data-tag="nausea">Nausea</div>
-            <div class="chip" data-tag="reflux">Reflux</div>
-            <div class="chip" data-tag="diarrhea">Diarrhea</div>
-            <div class="chip" data-tag="gas">Gas</div>
-            <div class="chip" data-tag="fatigue">Fatigue</div>
+        <div class="card symptomscard">
+          <h2>Symptoms</h2>
+
+          <div class="field">
+            <label>How does it feel?</label>
+            <div class="sev-row" id="formSevRow">
+              <div class="color-picker">
+                <button type="button" class="color-btn green" data-color="green" data-val="2">Good</button>
+                <button type="button" class="color-btn yellow" data-color="yellow" data-val="5">Meh</button>
+                <button type="button" class="color-btn red" data-color="red" data-val="8">Bad</button>
+              </div>
+              <div class="num-input-wrap">
+                <input type="number" id="sevNum" min="0" max="10" step="1" placeholder="–">
+                <span class="num-suffix">/ 10</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label for="notes">Notes (optional)</label>
-          <textarea id="notes" placeholder="stress, sleep, alcohol, how long after eating it started..."></textarea>
-        </div>
+          <div class="field">
+            <label>Which symptoms? (optional)</label>
+            <div class="chips" id="tagChips">
+              <div class="chip" data-tag="bloating">Bloating</div>
+              <div class="chip" data-tag="cramping">Cramping</div>
+              <div class="chip" data-tag="nausea">Nausea</div>
+              <div class="chip" data-tag="reflux">Reflux</div>
+              <div class="chip" data-tag="diarrhea">Diarrhea</div>
+              <div class="chip" data-tag="gas">Gas</div>
+              <div class="chip" data-tag="fatigue">Fatigue</div>
+            </div>
+          </div>
 
-        <div class="submit-row">
-          <button type="submit" class="primary">Save entry</button>
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" placeholder="stress, sleep, alcohol, how long after eating it started..."></textarea>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" class="primary">Save entry</button>
+          </div>
         </div>
       </form>
 
