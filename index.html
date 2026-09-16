@@ -269,6 +269,7 @@
     font-variant-numeric: tabular-nums;
   }
   .entry-food { font-size: 15px; margin: 4px 0 6px; }
+  .entry-food-none { color: var(--text-muted); font-style: italic; }
   .entry-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
   .tag-pill { font-size: 11.5px; padding: 2px 8px; border-radius: 999px; background: var(--surface-alt); color: var(--text-muted); }
   .entry-notes { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
@@ -340,8 +341,8 @@
               <input type="datetime-local" id="when" required>
             </div>
             <div class="field">
-              <label for="food">What you ate</label>
-              <input type="text" id="food" placeholder="e.g. iced coffee, oatmeal, banana" required>
+              <label for="food">What you ate (optional)</label>
+              <input type="text" id="food" placeholder="e.g. iced coffee, oatmeal, banana — leave blank for a symptom-only entry">
             </div>
           </div>
         </div>
@@ -538,7 +539,7 @@
     const food = document.getElementById('food').value.trim();
     const notes = document.getElementById('notes').value.trim();
     const when = whenInput.value;
-    if (!food || !when) return;
+    if (!when) return;
     const sevVal = sevNum.value === '' ? null : Math.max(0, Math.min(10, Number(sevNum.value)));
 
     const entry = {
@@ -621,7 +622,7 @@
                 <span class="entry-time">${fmtTime(en.when)}</span>
                 <button class="del-btn" data-id="${en.id}" title="Delete">&times;</button>
               </div>
-              <div class="entry-food">${escapeHtml(en.food)}</div>
+              ${en.food ? `<div class="entry-food">${escapeHtml(en.food)}</div>` : `<div class="entry-food entry-food-none">Symptom only — no food logged</div>`}
               ${en.tags.length ? `<div class="entry-tags">${en.tags.map(t => `<span class="tag-pill">${t}</span>`).join('')}</div>` : ''}
               ${en.notes ? `<div class="entry-notes">${escapeHtml(en.notes)}</div>` : ''}
               ${editingId === en.id
